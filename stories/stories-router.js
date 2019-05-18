@@ -42,7 +42,7 @@ storiesRouter.get("/:id", (req, res) => {
 });
 
 // Add New Story
-storiesRouter.post("/", (req, res) => {
+storiesRouter.post("/", checkTitle("Coordinator"), (req, res) => {
   const story = req.body;
   if (
     !story ||
@@ -72,7 +72,7 @@ storiesRouter.post("/", (req, res) => {
 });
 
 // Update Story
-storiesRouter.put("/:id", (req, res) => {
+storiesRouter.put("/:id", checkTitle("Coordinator"), (req, res) => {
   const story = req.body;
   const storyId = req.params.id;
 
@@ -110,7 +110,7 @@ storiesRouter.put("/:id", (req, res) => {
 });
 
 // Delete Story
-storiesRouter.delete("/:id", (req, res) => {
+storiesRouter.delete("/:id", checkTitle("Coordinator"), (req, res) => {
   const storyId = req.params.id;
   stories
     .remove(storyId)
