@@ -17,7 +17,7 @@ API for Bountiful Children's Foundation.
 # Users
 ## Register a new user
 
-POST http://localhost5000/users/register
+POST https://bcf-backend.herokuapp.com/users/register
 
 ### Parameters (Make sure to match case)
 
@@ -35,7 +35,7 @@ POST http://localhost5000/users/register
 
 ```
 
-axios.post("http://localhost5000/users/register", {
+axios.post("https://bcf-backend.herokuapp.com/users/register", {
     "firstname": "Jane",
 	"lastname": "Doe",
 	"country": "Peru",
@@ -45,7 +45,7 @@ axios.post("http://localhost5000/users/register", {
 	"password": "janedoe"
 })
 
-axios.post("http://localhost5000/users/register", {
+axios.post("https://bcf-backend.herokuapp.com/users/register", {
     "firstname": "Bill",
 	"lastname": "Gates",
 	"country": "Brazil",
@@ -93,7 +93,7 @@ ERROR XXX
 
 ## Login a user
 
-POST http://localhost5000/users/login
+POST https://bcf-backend.herokuapp.com/users/login
 
 ### Parameters (Make sure to match case)
 
@@ -106,7 +106,7 @@ POST http://localhost5000/users/login
 
 ```
 
-axios.post("http://localhost5000/users/login", {
+axios.post("https://bcf-backend.herokuapp.com/users/login", {
 	"username": "janedoe",
 	"password": "janedoe"
 })
@@ -151,7 +151,7 @@ ERROR XXX
 
 ## Get a user by ID (includes user's stories)
 
-GET http://localhost5000/users/:id
+GET https://bcf-backend.herokuapp.com/users/:id
 ### __NOTE: Token is needed for authorization to endpoint__
 
 ### Parameters (Make sure to match case)
@@ -164,7 +164,7 @@ GET http://localhost5000/users/:id
 
 ```
 
-axios.get("http://localhost5000/users/1")
+axios.get("https://bcf-backend.herokuapp.com/users/1")
 
 
 ```
@@ -227,13 +227,13 @@ ERROR XXX
 ### __NOTE: All requests to /stories endpoint requires token__
 
 ## Get All Stories
-GET http://localhost5000/stories
+GET https://bcf-backend.herokuapp.com/stories
 
 ### Example
 
 ``` 
 
- axios.get("http://localhost5000/stories");
+ axios.get("https://bcf-backend.herokuapp.com/stories");
 
 ```
 
@@ -297,13 +297,13 @@ ERROR XXX
 
 
 ## Get Story by ID
-GET http://localhost5000/stories/:id
+GET https://bcf-backend.herokuapp.com/stories/:id
 
 ### Example
 
 ``` 
 
- axios.get("http://localhost5000/stories/1");
+ axios.get("https://bcf-backend.herokuapp.com/stories/1");
 
 ```
 
