@@ -6,6 +6,13 @@ API for Bountiful Children's Foundation.
     - [Login a user](#login-a-user)
     - [Get a user by ID](#get-a-user-by-ID-(includes-user's-stories))
 
+- [Stories](#stories)
+    - [Get all stories](#get-all-stories)
+    - [Get story by ID](#get-story-by-id)
+    - [Create a story]
+    - [Update a story]
+    - [Delete a story]
+
 
 # Users
 ## Register a new user
@@ -145,7 +152,7 @@ ERROR XXX
 ## Get a user by ID (includes user's stories)
 
 GET http://localhost5000/users/:id
-### __Token is needed for authorization to endpoint__
+### __NOTE: Token is needed for authorization to endpoint__
 
 ### Parameters (Make sure to match case)
 
@@ -201,6 +208,121 @@ User Data:
       "date": "May 17, 2019"
     }
   ]
+}
+
+```
+
+### Error Response
+
+```
+
+ERROR XXX
+{
+    "error": "Some Error Message"
+}
+
+```
+
+# Stories
+### __NOTE: All requests to /stories endpoint requires token__
+
+## Get All Stories
+GET http://localhost5000/stories
+
+### Example
+
+``` 
+
+ axios.get("http://localhost5000/stories");
+
+```
+
+### Success Response
+
+Stories Data
+
+```
+
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "title": "A Moment in Peru",
+    "country": "Peru",
+    "description": "A cool story that happened in Peru",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "title": "A Tour in Ghana",
+    "country": "Ghana",
+    "description": "A cool story that happened in Ghana",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },
+  {
+    "id": 3,
+    "user_id": 1,
+    "title": "A Day in Cambodia",
+    "country": "Cambodia",
+    "description": "A cool story that happened in Cambodia",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },
+  {
+    "id": 4,
+    "user_id": 2,
+    "title": "A Life in Haiti",
+    "country": "Haiti",
+    "description": "A cool story that happened in Haiti",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },...
+ ]
+
+```
+
+### Error Response
+
+```
+
+ERROR XXX
+{
+    "error": "Some Error Message"
+}
+
+```
+
+
+## Get Story by ID
+GET http://localhost5000/stories/:id
+
+### Example
+
+``` 
+
+ axios.get("http://localhost5000/stories/1");
+
+```
+
+### Success Response
+
+Story Data
+
+```
+
+{
+  "id": 3,
+  "user_id": 1,
+  "title": "A Day in Cambodia",
+  "country": "Cambodia",
+  "description": "A cool story that happened in Cambodia",
+  "fullStory": "Full story goes here.",
+  "date": "May 17, 2019",
+  "created_at": "2019-05-18 19:00:19",
+  "updated_at": "2019-05-18 19:00:19"
 }
 
 ```
