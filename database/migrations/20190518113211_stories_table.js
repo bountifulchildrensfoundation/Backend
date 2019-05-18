@@ -19,6 +19,7 @@ exports.up = function(knex, Promise) {
       tbl.string("description").notNullable();
       tbl.string("fullStory").notNullable();
       tbl.string("date").notNullable();
+      tbl.timestamps(true, true);
     });
   };
   
