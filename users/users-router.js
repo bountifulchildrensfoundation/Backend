@@ -2,32 +2,31 @@
 const usersRouter = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-
 // Data
 const users = require("./users-model.js");
 
-// Middleware?
+// Middleware
 const { generateToken, restricted } = require("../auth/authenticators.js");
 
-// ========  For endpoints beginning with /api/users
-
+// ========  For endpoints beginning with /users
 
 // Register
 usersRouter.post("/register", (req, res) => {
   let user = req.body;
 
   if (
-      !user ||
-      !user.firstname ||
-      !user.lastname || 
-      !user.country ||
-      !user.title ||
-      !user.email ||
-      !user.username ||
-      !user.password
-      ) {
+    !user ||
+    !user.firstname ||
+    !user.lastname ||
+    !user.country ||
+    !user.title ||
+    !user.email ||
+    !user.username ||
+    !user.password
+  ) {
     res.status(400).json({
-      error: "To register, you must fill out a firstname, lastname, country, title, email, username, and password."
+      error:
+        "To register, you must fill out a firstname, lastname, country, title, email, username, and password."
     });
   } else {
     // hash the password
@@ -37,10 +36,12 @@ usersRouter.post("/register", (req, res) => {
     users
       .add(user)
       .then(user => {
-        // generate token when successful register
+        // generate token upon successful register
         const token = generateToken(user);
         res.status(201).json({
-          message: `Welcome ${user.firstname}! Your username is ${user.username}.`,
+          message: `Welcome ${user.firstname}! Your username is ${
+            user.username
+          }.`,
           user,
           token
         });
@@ -53,7 +54,6 @@ usersRouter.post("/register", (req, res) => {
   }
 });
 
-
 // Login
 usersRouter.post("/login", (req, res) => {
   let { username, password } = req.body;
@@ -62,12 +62,13 @@ usersRouter.post("/login", (req, res) => {
     .findBy({ username })
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        // generate token upon successful login
         const token = generateToken(user);
         res.status(200).json({
           message: `Welcome ${user.username}!`,
           user,
           token
-        }); 
+        });
       } else {
         res.status(401).json({ error: "Incorrect password" });
       }
@@ -93,7 +94,7 @@ usersRouter.get("/", (req, res) => {
     });
 });
 
-// Find User + Stories by ID
+// Find User (w/ stories) by ID
 usersRouter.get("/:id", restricted, (req, res) => {
   const userId = req.params.id;
   users
@@ -112,30 +113,6 @@ usersRouter.get("/:id", restricted, (req, res) => {
     });
 });
 
-/*
 
-
-// ============ GET STUDENTS BY COHORT ID
-cohortsRouter.get("/:id/students", (req, res) => {
-  const cohortId = req.params.id;
-  cohortsDb
-    .findStudentsById(cohortId)
-    .then(cohort => {
-      if (cohort) {
-        res.status(200).json(cohort);
-      } else {
-        res.status(404).json({ error: "This cohort could not be found." });
-      }
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: "This cohort's information could not be retrieved." });
-    });
-});
-
-
-
-  */
 
 module.exports = usersRouter;

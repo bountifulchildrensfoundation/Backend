@@ -1,14 +1,13 @@
 // Packages
 const storiesRouter = require("express").Router();
-const jwt = require("jsonwebtoken");
 
 // Data
 const stories = require("../stories/stories-model.js");
 
 // Middleware
-const { restricted, checkTitle } = require("../auth/authenticators.js");
+const { checkTitle } = require("../auth/authenticators.js");
 
-// ========  For endpoints beginning with /api/stories
+// ========  For endpoints beginning with /stories
 
 // Get All Stories 
 storiesRouter.get("/", (req, res) => {

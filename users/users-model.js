@@ -5,7 +5,6 @@ module.exports = {
   findAllUsers,
   findBy,
   findByUserId
-  //findStoriesById
 };
 
 // for register
@@ -57,14 +56,3 @@ function findBy(filter) {
     .first();
 }
 
-/*
-
-
-function findStudentsById(id) {
-  return db("cohorts as c")
-    .join("students as s", "s.cohort_id", "c.cohorts_id") // cohort_id AND cohorts_id
-    .select("c.cohorts_id", "c.name", "s.name as StudentName")
-    .where({ cohorts_id: Number(id) });
-}
-
-*/
