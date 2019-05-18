@@ -14,10 +14,13 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
+// Middleware 
+const { restricted } = require("../auth/authenticators");
+
 // Endpoints
 //server.use("/api/auth", authRouter); // moved /login and /register to usersRouter
 server.use("/users", usersRouter);
-server.use("/stories", storiesRouter);
+server.use("/stories", restricted, storiesRouter);
 
 server.get("/", (req, res) => {
     res.send("Yay! Server is Up and Running! Welcome to Build Week.");

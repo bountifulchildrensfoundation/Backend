@@ -5,12 +5,12 @@ const jwt = require("jsonwebtoken");
 // Data
 const stories = require("../stories/stories-model.js");
 
-// Middleware?
+// Middleware
 const { restricted, checkTitle } = require("../auth/authenticators.js");
 
 // ========  For endpoints beginning with /api/stories
 
-// Get All Stories
+// Get All Stories 
 storiesRouter.get("/", (req, res) => {
   stories
     .findStories()
@@ -42,7 +42,7 @@ storiesRouter.get("/:id", (req, res) => {
 });
 
 // Add New Story
-storiesRouter.post("/", restricted, (req, res) => {
+storiesRouter.post("/", (req, res) => {
   const story = req.body;
   if (
     !story ||
@@ -72,7 +72,7 @@ storiesRouter.post("/", restricted, (req, res) => {
 });
 
 // Update Story
-storiesRouter.put("/:id", restricted, (req, res) => {
+storiesRouter.put("/:id", (req, res) => {
   const story = req.body;
   const storyId = req.params.id;
 
@@ -110,7 +110,7 @@ storiesRouter.put("/:id", restricted, (req, res) => {
 });
 
 // Delete Story
-storiesRouter.delete("/:id", restricted, (req, res) => {
+storiesRouter.delete("/:id", (req, res) => {
   const storyId = req.params.id;
   stories
     .remove(storyId)
