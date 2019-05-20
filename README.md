@@ -7,7 +7,7 @@ __URL__: https://bcf-backend.herokuapp.com
 
   - [Register a new user](#register-a-new-user)
   - [Login a user](#login-a-user)
-  - [Get a user by ID](<#get-a-user-by-ID-(includes-user's-stories)>)
+  - [Get a user by ID](<#get-a-user-by-ID-(includes-their-stories)>)
 
 - [Stories](#stories)
   - [Get all stories](#get-all-stories)
@@ -155,7 +155,7 @@ ERROR XXX
 
 ```
 
-## Get a user by ID (includes user's stories)
+## Get a user by ID (includes their stories)
 
 GET https://bcf-backend.herokuapp.com/users/:id
 
