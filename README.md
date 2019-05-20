@@ -1,6 +1,7 @@
 # Bountiful Children's Foundation - Backend
 
-API for Bountiful Children's Foundation. 
+API for Bountiful Children's Foundation. Click [here](https://docs.google.com/document/d/1PGMorCsFxKlkOYRAoZw5dOssCLZP0oxQYzzAqM3YObU/edit#heading=h.4oicemcbd57) to view the Technical Design Document for this project.
+
 __URL__: https://bcf-backend.herokuapp.com
 
 - [Users](#users)
