@@ -30,6 +30,7 @@ describe("SERVER", () => {
     date: "May 18, 2019"
   };
 
+
   // not used because db reset before tests and this user would never have registered before
   const loggedInUser = {
     username: "wendywilliams",
@@ -98,7 +99,7 @@ describe("SERVER", () => {
       it("should return json object", async () => {
         const response = await request(server)
           .post("/users/login")
-          .send(loggedInUser);
+          .send(newRegister);
         expect(response.type).toBe("application/json");
       });
 
@@ -201,5 +202,21 @@ describe("SERVER", () => {
         expect(response.body).toHaveProperty("id");
       });
     });
+
+    describe("DELETE /stories/:id", () => {
+      // check db to see what ids are available
+      it("should return 200 OK and json object", async () => {
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        const response = await request(server)
+          .delete("/stories/19")
+          .set("authorization", user.body.token);
+        expect(response.status).toBe(200);
+        expect(response.type).toBe("application/json");
+      });
+    });
+
   });
 });
