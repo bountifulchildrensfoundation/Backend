@@ -8,21 +8,22 @@ describe("SERVER", () => {
     await db("users").truncate();
   });
 
-  // for following endpoint tests to use for token
-  // .send(newRegister)
+  // for following endpoint tests to use for token --> .send(newRegister)
+  // then need .set("authorization", user.body.token) to set token to authorization header for restricted routes
   const newRegister = {
-    firstname: "Jane",
-    lastname: "Doe",
-    country: "Peru",
+    firstname: "Wendy",
+    lastname: "Williams",
+    country: "Bolivia",
     title: "Coordinator",
-    email: "jane@company.com",
-    username: "janedoe",
-    password: "janedoe"
+    email: "wendy@company.com",
+    username: "wendywilliams",
+    password: "wendywilliams"
   };
 
-  const newLogin = {
-      username: "janedoe",
-      password: "janedoe"
+  // not used because db reset before tests and this user would never have registered before
+  const loggedInUser = {
+    username: "wendywilliams",
+    password: "webdywilliams"
   };
 
   it("should set the environment to testing", () => {
@@ -66,28 +67,35 @@ describe("SERVER", () => {
           expect.objectContaining(expectedBody)
         );
       });
+
+      it("should provide a token", async () => {
+        const response = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        expect(response.body.token).toBeDefined();
+      });
     });
 
-    describe("POST /users/login", () => {
+    describe("POST /users/login", () => { // if using beforeEach then need to add api call to register before each login test
       it("should return 200 OK", async () => {
         const response = await request(server)
           .post("/users/login")
-          .send(newLogin);
+          .send(newRegister);
         expect(response.status).toBe(200);
       });
 
       it("should return json object", async () => {
         const response = await request(server)
           .post("/users/login")
-          .send(newLogin);
+          .send(loggedInUser);
         expect(response.type).toBe("application/json");
       });
 
       it("should return object containing welcome message", async () => {
-        const expectedBody = `Welcome ${newLogin.username}!`;
+        const expectedBody = `Welcome ${newRegister.username}!`;
         const response = await request(server)
           .post("/users/login")
-          .send(newLogin);
+          .send(newRegister);
         // console.log(response);
         expect(response.body.message).toBe(expectedBody);
       });
@@ -98,22 +106,50 @@ describe("SERVER", () => {
     describe("GET /stories", () => {
       it("should return 200 OK", async () => {
         // first register to get token/access
-        await request(server)
+        const user = await request(server)
           .post("/users/register")
           .send(newRegister);
-
-        const response = await request(server).get("/");
+        const response = await request(server)
+          .get("/stories")
+          .set("authorization", user.body.token);
         expect(response.status).toBe(200);
       });
 
       it("should return JSON object", async () => {
-        // first register to get token/access
-        await request(server)
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
           .post("/users/register")
           .send(newRegister);
-
-        const response = await request(server).get("/stories");
+        const response = await request(server)
+          .get("/stories")
+          .set("authorization", user.body.token);
         expect(response.type).toBe("application/json");
+      });
+
+      it("should return stories with given properties", async () => {
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        const response = await request(server)
+          .get("/stories")
+          .set("authorization", user.body.token);
+
+        expect(response.body[0]).toHaveProperty("id");
+        expect(response.body[0]).toHaveProperty("user_id");
+        expect(response.body[0]).toHaveProperty("title");
+        expect(response.body[0]).toHaveProperty("description");
+        expect(response.body[0]).toHaveProperty("fullStory");
+        expect(response.body[0]).toHaveProperty("date");
+        /*     
+        expect(response.body).toEqual(          // 1) expect array equals
+          expect.arrayContaining([      // 2) an array that contains
+            expect.objectContaining({   // 3) an object that contains
+              fullStory: ""               // 4) a property
+            })
+          ])
+        );
+        */
       });
     });
   });
