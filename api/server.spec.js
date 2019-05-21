@@ -30,6 +30,15 @@ describe("SERVER", () => {
     date: "May 18, 2019"
   };
 
+  const updatedStory = {
+    user_id: 1,
+    title: "The VERY Grand Zimbabwe",
+    country: "Zimbabwe",
+    description: "A cool story that happened in Zimbabwe",
+    fullStory:
+      "Zimbabwe is a landlocked country in southern Africa known for its dramatic landscape and diverse wildlife, much of it within parks, reserves and safari areas. On the Zambezi River, Victoria Falls make a thundering 108m drop into narrow Batoka Gorge, where there’s white-water rafting and bungee-jumping. Downstream are Matusadona and Mana Pools national parks, home to hippos, rhinos and birdlife.",
+    date: "May 18, 2019"
+  };
 
   // not used because db reset before tests and this user would never have registered before
   const loggedInUser = {
@@ -211,12 +220,27 @@ describe("SERVER", () => {
           .post("/users/register")
           .send(newRegister);
         const response = await request(server)
-          .delete("/stories/19")
+          .delete("/stories/77")
           .set("authorization", user.body.token);
         expect(response.status).toBe(200);
         expect(response.type).toBe("application/json");
       });
     });
 
+    describe("UPDATE /stories/:id", () => {
+      // check db to see what ids are available
+      it("should return 200 OK and json object", async () => {
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        const response = await request(server)
+          .put("/stories/81")
+          .set("authorization", user.body.token)
+          .send(updatedStory);
+        expect(response.status).toBe(200);
+        expect(response.type).toBe("application/json");
+      });
+    });
   });
 });
