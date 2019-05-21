@@ -20,6 +20,16 @@ describe("SERVER", () => {
     password: "wendywilliams"
   };
 
+  const newStory = {
+    user_id: 1,
+    title: "The Grand Zimbabwe",
+    country: "Zimbabwe",
+    description: "A cool story that happened in Zimbabwe",
+    fullStory:
+      "Zimbabwe is a landlocked country in southern Africa known for its dramatic landscape and diverse wildlife, much of it within parks, reserves and safari areas. On the Zambezi River, Victoria Falls make a thundering 108m drop into narrow Batoka Gorge, where there’s white-water rafting and bungee-jumping. Downstream are Matusadona and Mana Pools national parks, home to hippos, rhinos and birdlife.",
+    date: "May 18, 2019"
+  };
+
   // not used because db reset before tests and this user would never have registered before
   const loggedInUser = {
     username: "wendywilliams",
@@ -76,7 +86,8 @@ describe("SERVER", () => {
       });
     });
 
-    describe("POST /users/login", () => { // if using beforeEach then need to add api call to register before each login test
+    describe("POST /users/login", () => {
+      // if using beforeEach then need to add api call to register before each login test
       it("should return 200 OK", async () => {
         const response = await request(server)
           .post("/users/login")
@@ -150,6 +161,44 @@ describe("SERVER", () => {
           ])
         );
         */
+      });
+    });
+
+    describe("POST /stories", () => {
+      it("should return 200 OK", async () => {
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        const response = await request(server)
+          .post("/stories")
+          .set("authorization", user.body.token)
+          .send(newStory);
+        expect(response.status).toBe(200);
+      });
+
+      it("should return JSON object", async () => {
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        const response = await request(server)
+          .post("/stories")
+          .set("authorization", user.body.token)
+          .send(newStory);
+        expect(response.type).toBe("application/json");
+      });
+
+      it("should return story with id", async () => {
+        // first register to get token/access then set token on authorization header
+        const user = await request(server)
+          .post("/users/register")
+          .send(newRegister);
+        const response = await request(server)
+          .post("/stories")
+          .set("authorization", user.body.token)
+          .send(newStory);
+        expect(response.body).toHaveProperty("id");
       });
     });
   });
